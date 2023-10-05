@@ -6,17 +6,16 @@ import (
 
 	"github.com/GiorgiMakharadze/bank-API-golang/api"
 	db "github.com/GiorgiMakharadze/bank-API-golang/db/sqlc"
+	"github.com/GiorgiMakharadze/bank-API-golang/util"
 	_ "github.com/lib/pq"
 )
 
-const (
-	dbDriver      = "postgres"
-	dbSource      = "postgresql://root:secret@localhost:5432/bank?sslmode=disable"
-	serverAddress = "localhost:8080"
-)
-
 func main() {
-	conn, err := sql.Open(dbDriver, dbSource)
+	config, err := util.LoadConfig(".")
+	if err != nil {
+		log.Fatal("cannot load config:", err)
+	}
+	conn, err := sql.Open(config.DB_DRIVER, config.DB_SOURCE)
 	if err != nil {
 		log.Fatal("cannot connect database", err)
 	}
@@ -24,7 +23,7 @@ func main() {
 	store := db.NewStore(conn)
 	server := api.NewServer(store)
 
-	err = server.Start(serverAddress)
+	err = server.Start(config.SERVER_ADDRESS)
 	if err != nil {
 		log.Fatal("cannot start server", err)
 	}

@@ -48,5 +48,5 @@ func RandomCurrency() string {
 
 // RandomAmount generates a random amount for entry.
 func RandomAmount() int64 {
-    return RandomInt(-1000, 1000)
+	return RandomInt(-1000, 1000)
 }
