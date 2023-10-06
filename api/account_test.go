@@ -68,7 +68,7 @@ func TestCreateAccountAPI(t *testing.T) {
 			data, err := json.Marshal(tc.requestBody)
 			require.NoError(t, err)
 
-			request, err := http.NewRequest(http.MethodPost, "/accounts", bytes.NewReader(data))
+			request, err := http.NewRequest(http.MethodPost, "/api/v1/accounts", bytes.NewReader(data))
 			require.NoError(t, err)
 
 			server.router.ServeHTTP(recorder, request)
@@ -152,7 +152,7 @@ func TestGetAccountAPI(t *testing.T) {
 			server := NewServer(store)
 			recorder := httptest.NewRecorder()
 
-			url := fmt.Sprintf("/accounts/%d", tc.accountID)
+			url := fmt.Sprintf("/api/v1/accounts/%d", tc.accountID)
 			request, err := http.NewRequest(http.MethodGet, url, nil)
 			require.NoError(t, err)
 
@@ -225,7 +225,7 @@ func TestListAccountsAPI(t *testing.T) {
 			server := NewServer(store)
 			recorder := httptest.NewRecorder()
 
-			req := httptest.NewRequest(http.MethodGet, "/accounts", nil)
+			req := httptest.NewRequest(http.MethodGet, "/api/v1/accounts", nil)
 			q := req.URL.Query()
 			for k, v := range tc.request {
 				q.Add(k, v)
