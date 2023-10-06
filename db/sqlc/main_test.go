@@ -10,7 +10,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-
 var testQueries *Queries
 var testDB *sql.DB
 
