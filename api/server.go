@@ -21,7 +21,7 @@ type Server struct {
 
 // NewServer creates a new HTTP server and setup routing
 func NewServer(config util.Config, store db.Store) (*Server, error) {
-	tokenMaker, err := token.NewPasetoMaker(config.TokenSymetricKey)
+	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
 
 	if err != nil {
 		return nil, fmt.Errorf("cannot create token maker: %w", err)
@@ -43,16 +43,16 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 func (server *Server) setupRouter() {
 	router := gin.Default()
 
-	router.POST("/api/v1/users", server.createUser)
-	router.POST("/api/v1/users/login", server.loginUser)
+	router.POST("/users", server.createUser)
+	router.POST("/users/login", server.loginUser)
 
 	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 
-	authRoutes.POST("/api/v1/accounts", server.createAccount)
-	authRoutes.GET("/api/v1/accounts/:id", server.getAccount)
-	authRoutes.GET("/api/v1/accounts", server.listAccount)
+	authRoutes.POST("/accounts", server.createAccount)
+	authRoutes.GET("/accounts/:id", server.getAccount)
+	authRoutes.GET("/accounts", server.listAccounts)
 
-	authRoutes.POST("/api/v1/transfers", server.createTransfer)
+	authRoutes.POST("/transfers", server.createTransfer)
 
 	server.router = router
 

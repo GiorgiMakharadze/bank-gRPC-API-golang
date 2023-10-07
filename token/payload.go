@@ -9,8 +9,8 @@ import (
 
 // Different types of error returned by the VerifyToken function
 var (
-	ErrExpiredToken = errors.New("token has expired")
 	ErrInvalidToken = errors.New("token is invalid")
+	ErrExpiredToken = errors.New("token has expired")
 )
 
 // Payload contains the payload data of the token
