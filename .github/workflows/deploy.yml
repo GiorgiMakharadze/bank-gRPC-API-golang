@@ -6,6 +6,9 @@ on:
 
 jobs:
   deploy:
+    permissions:
+      id-token: write
+      contents: read
     name: Build image
     runs-on: ubuntu-latest
 
