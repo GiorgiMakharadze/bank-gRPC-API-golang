@@ -5,7 +5,6 @@
 package db
 
 import (
-	"database/sql"
 	"time"
 
 	"github.com/google/uuid"
@@ -29,7 +28,7 @@ type Entry struct {
 
 type Session struct {
 	ID           uuid.UUID      `json:"id"`
-	Username     sql.NullString `json:"username"`
+	Username     string `json:"username"`
 	RefreshToken string         `json:"refresh_token"`
 	UserAgent    string         `json:"user_agent"`
 	ClientIp     string         `json:"client_ip"`

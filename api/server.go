@@ -47,6 +47,8 @@ func (server *Server) setupRouter() {
 
 	api.POST("/users", server.createUser)
 	api.POST("/users/login", server.loginUser)
+	api.POST("/token/renew_access", server.renewAccessToken)
+
 
 	// Adjust authRoutes to use the api group with authentication middleware
 	authRoutes := api.Group("/").Use(authMiddleware(server.tokenMaker))
