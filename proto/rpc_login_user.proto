@@ -12,7 +12,6 @@ message LoginUserRequest {
     string password = 2;
 }
 
-
 message LoginUserResponse {
     User user = 1;
     string session_id = 2;
