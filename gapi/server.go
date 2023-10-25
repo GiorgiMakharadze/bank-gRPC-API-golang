@@ -32,6 +32,3 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 
 	return server, nil
 }
-
-
-
