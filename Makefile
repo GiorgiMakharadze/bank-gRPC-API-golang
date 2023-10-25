@@ -26,5 +26,10 @@ server:
 	go run main.go
 mock:
 	mockgen -package mockdb -destination db/mock/store.go  github.com/GiorgiMakharadze/bank-API-golang/db/sqlc Store
-.PHONY: postgres createdb dropdb migrateup migratedown migrateupone migratedownone sqlc test server mock db_docs db_schema
+proto:
+	rm -f pb/*.go
+	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative \
+    --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
+    proto/*.proto
+.PHONY: postgres createdb dropdb migrateup migratedown migrateupone migratedownone sqlc test server mock db_docs db_schema proto
 	
