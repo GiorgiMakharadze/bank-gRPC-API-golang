@@ -11,16 +11,16 @@ option go_package = "github.com/GiorgiMakharadze/bank-API-golang/pb";
 
 
 service Bank {
-    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {
         option (google.api.http) = {
-        post: "/v1/create_user"
-        body: "*"
+            post: "/v1/create_user"
+            body: "*"
         };
     }
-    rpc LoginUser(LoginUserRequest) returns (LoginUserResponse) {     
+    rpc LoginUser (LoginUserRequest) returns (LoginUserResponse) {
         option (google.api.http) = {
-        post: "/v1/login_user"
-        body: "*"
+            post: "/v1/login_user"
+            body: "*"
         };
     }
 }
