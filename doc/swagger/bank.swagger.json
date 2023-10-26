@@ -2,11 +2,11 @@
   "swagger": "2.0",
   "info": {
     "title": "Bank",
-    "version": "1.0",
+    "version": "1.1",
     "contact": {
       "name": "GiorgiMakharadze",
       "url": "https://github.com/GiorgiMakharadze/bank-API-golang",
-      "email": "makharadzegiorgi00@gmail.com"
+      "email": "makharadzegiorgi00@gmail.com.com"
     }
   },
   "tags": [
@@ -14,11 +14,17 @@
       "name": "Bank"
     }
   ],
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/v1/create_user": {
       "post": {
+        "summary": "Create new user",
+        "description": "Use this API to create a new user",
         "operationId": "Bank_CreateUser",
         "responses": {
           "200": {
@@ -44,7 +50,9 @@
             }
           }
         ],
-        "tags": ["Bank"]
+        "tags": [
+          "Bank"
+        ]
       }
     },
     "/v1/login_user": {
@@ -74,7 +82,9 @@
             }
           }
         ],
-        "tags": ["Bank"]
+        "tags": [
+          "Bank"
+        ]
       }
     }
   },
