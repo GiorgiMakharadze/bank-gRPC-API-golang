@@ -23,6 +23,7 @@ const (
 	Bank_LoginUser_FullMethodName     = "/pb.Bank/LoginUser"
 	Bank_UpdateUser_FullMethodName    = "/pb.Bank/UpdateUser"
 	Bank_CreateAccount_FullMethodName = "/pb.Bank/CreateAccount"
+	Bank_GetAccount_FullMethodName    = "/pb.Bank/GetAccount"
 	Bank_ListAccounts_FullMethodName  = "/pb.Bank/ListAccounts"
 )
 
@@ -34,6 +35,7 @@ type BankClient interface {
 	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error)
+	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error)
 	ListAccounts(ctx context.Context, in *ListAccountRequest, opts ...grpc.CallOption) (*ListAccountResponse, error)
 }
 
@@ -81,6 +83,15 @@ func (c *bankClient) CreateAccount(ctx context.Context, in *CreateAccountRequest
 	return out, nil
 }
 
+func (c *bankClient) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error) {
+	out := new(GetAccountResponse)
+	err := c.cc.Invoke(ctx, Bank_GetAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *bankClient) ListAccounts(ctx context.Context, in *ListAccountRequest, opts ...grpc.CallOption) (*ListAccountResponse, error) {
 	out := new(ListAccountResponse)
 	err := c.cc.Invoke(ctx, Bank_ListAccounts_FullMethodName, in, out, opts...)
@@ -98,6 +109,7 @@ type BankServer interface {
 	LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error)
+	GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error)
 	ListAccounts(context.Context, *ListAccountRequest) (*ListAccountResponse, error)
 	mustEmbedUnimplementedBankServer()
 }
@@ -117,6 +129,9 @@ func (UnimplementedBankServer) UpdateUser(context.Context, *UpdateUserRequest) (
 }
 func (UnimplementedBankServer) CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
+}
+func (UnimplementedBankServer) GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
 }
 func (UnimplementedBankServer) ListAccounts(context.Context, *ListAccountRequest) (*ListAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAccounts not implemented")
@@ -206,6 +221,24 @@ func _Bank_CreateAccount_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Bank_GetAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BankServer).GetAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Bank_GetAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BankServer).GetAccount(ctx, req.(*GetAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Bank_ListAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListAccountRequest)
 	if err := dec(in); err != nil {
@@ -246,6 +279,10 @@ var Bank_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateAccount",
 			Handler:    _Bank_CreateAccount_Handler,
+		},
+		{
+			MethodName: "GetAccount",
+			Handler:    _Bank_GetAccount_Handler,
 		},
 		{
 			MethodName: "ListAccounts",
