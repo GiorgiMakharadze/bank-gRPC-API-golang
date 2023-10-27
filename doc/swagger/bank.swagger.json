@@ -89,6 +89,46 @@
         ]
       }
     },
+    "/v1/list_accounts": {
+      "get": {
+        "summary": "List accounts",
+        "description": "Use this API to list accounts",
+        "operationId": "Bank_ListAccounts",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListAccountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "PageID",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Bank"
+        ]
+      }
+    },
     "/v1/login_user": {
       "post": {
         "operationId": "Bank_LoginUser",
@@ -225,6 +265,18 @@
       "properties": {
         "user": {
           "$ref": "#/definitions/pbUser"
+        }
+      }
+    },
+    "pbListAccountResponse": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbAccount"
+          }
         }
       }
     },

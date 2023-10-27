@@ -26,10 +26,3 @@ func convertAccount(account db.Account) *pb.Account {
 	}
 }
 
-func convertListAccounts(accounts []db.Account) []*pb.Account {
-    pbAccounts := make([]*pb.Account, len(accounts))
-    for i, account := range accounts {
-        pbAccounts[i] = convertAccount(account)
-    }
-    return pbAccounts
-}

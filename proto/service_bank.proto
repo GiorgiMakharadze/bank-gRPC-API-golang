@@ -7,6 +7,7 @@ import "rpc_create_user.proto";
 import "rpc_login_user.proto";
 import "rpc_update_user.proto";
 import "rpc_create_account.proto";
+import "rpc_list_accounts.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 
@@ -61,4 +62,14 @@ service Bank {
       summary: "Create new account";
    };
  }
+ rpc ListAccounts (ListAccountRequest) returns (ListAccountResponse) {
+  option (google.api.http) = {
+    get: "/v1/list_accounts"
+  };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this API to list accounts";
+      summary: "List accounts";
+    };
+  }
 }
+
