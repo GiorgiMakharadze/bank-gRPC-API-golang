@@ -45,7 +45,7 @@ func GrpcLogger(
 type ResponseRecorder struct {
 	http.ResponseWriter
 	StatusCode int
-	Body []byte
+	Body       []byte
 }
 
 func (rec *ResponseRecorder) WriteHeader(statusCode int) {
@@ -63,7 +63,7 @@ func HttpLogger(handler http.Handler) http.Handler {
 		startTime := time.Now()
 		rec := &ResponseRecorder{
 			ResponseWriter: res,
-			StatusCode:  http.StatusOK,
+			StatusCode:     http.StatusOK,
 		}
 		handler.ServeHTTP(rec, req)
 		duration := time.Since(startTime)

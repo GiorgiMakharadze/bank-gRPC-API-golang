@@ -52,3 +52,14 @@ func ValidateEmail(value string) error {
 	}
 	return nil
 }
+
+
+func ValidateCurrency(value string) error {
+    allowedCurrencies := []string{"USD", "EUR", "GEL", "JPY", "GBP", "AUD"}
+    for _, currency := range allowedCurrencies {
+        if value == currency {
+            return nil
+        }
+    }
+    return fmt.Errorf("invalid currency: must be one of %v", allowedCurrencies)
+}

@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "rpc_create_user.proto";
 import "rpc_login_user.proto";
 import "rpc_update_user.proto";
+import "rpc_create_account.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 
@@ -50,4 +51,14 @@ service Bank {
         summary: "Update user";
     };
   }
+  rpc CreateAccount (CreateAccountRequest) returns (CreateAccountResponse) {
+    option (google.api.http) = {
+        patch: "/v1/create_account"
+        body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this API to create account";
+      summary: "Create new account";
+  };
+}
 }
