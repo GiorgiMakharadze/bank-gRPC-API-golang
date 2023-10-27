@@ -16,9 +16,9 @@ const createSession = `-- name: CreateSession :one
 INSERT INTO sessions (
   id,
   username,
-  refresh_token, 
-  user_agent, 
-  client_ip, 
+  refresh_token,
+  user_agent,
+  client_ip,
   is_blocked,
   expires_at
 ) VALUES (
