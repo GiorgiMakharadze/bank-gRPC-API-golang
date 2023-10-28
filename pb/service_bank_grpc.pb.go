@@ -26,6 +26,7 @@ const (
 	Bank_CreateAccount_FullMethodName    = "/pb.Bank/CreateAccount"
 	Bank_GetAccount_FullMethodName       = "/pb.Bank/GetAccount"
 	Bank_ListAccounts_FullMethodName     = "/pb.Bank/ListAccounts"
+	Bank_CreateTransfer_FullMethodName   = "/pb.Bank/CreateTransfer"
 )
 
 // BankClient is the client API for Bank service.
@@ -39,6 +40,7 @@ type BankClient interface {
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error)
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error)
 	ListAccounts(ctx context.Context, in *ListAccountRequest, opts ...grpc.CallOption) (*ListAccountResponse, error)
+	CreateTransfer(ctx context.Context, in *CreateTransferRequest, opts ...grpc.CallOption) (*CreateTransferResponse, error)
 }
 
 type bankClient struct {
@@ -112,6 +114,15 @@ func (c *bankClient) ListAccounts(ctx context.Context, in *ListAccountRequest, o
 	return out, nil
 }
 
+func (c *bankClient) CreateTransfer(ctx context.Context, in *CreateTransferRequest, opts ...grpc.CallOption) (*CreateTransferResponse, error) {
+	out := new(CreateTransferResponse)
+	err := c.cc.Invoke(ctx, Bank_CreateTransfer_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BankServer is the server API for Bank service.
 // All implementations must embed UnimplementedBankServer
 // for forward compatibility
@@ -123,6 +134,7 @@ type BankServer interface {
 	CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error)
 	GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error)
 	ListAccounts(context.Context, *ListAccountRequest) (*ListAccountResponse, error)
+	CreateTransfer(context.Context, *CreateTransferRequest) (*CreateTransferResponse, error)
 	mustEmbedUnimplementedBankServer()
 }
 
@@ -150,6 +162,9 @@ func (UnimplementedBankServer) GetAccount(context.Context, *GetAccountRequest) (
 }
 func (UnimplementedBankServer) ListAccounts(context.Context, *ListAccountRequest) (*ListAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAccounts not implemented")
+}
+func (UnimplementedBankServer) CreateTransfer(context.Context, *CreateTransferRequest) (*CreateTransferResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTransfer not implemented")
 }
 func (UnimplementedBankServer) mustEmbedUnimplementedBankServer() {}
 
@@ -290,6 +305,24 @@ func _Bank_ListAccounts_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Bank_CreateTransfer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTransferRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BankServer).CreateTransfer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Bank_CreateTransfer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BankServer).CreateTransfer(ctx, req.(*CreateTransferRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Bank_ServiceDesc is the grpc.ServiceDesc for Bank service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -324,6 +357,10 @@ var Bank_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAccounts",
 			Handler:    _Bank_ListAccounts_Handler,
+		},
+		{
+			MethodName: "CreateTransfer",
+			Handler:    _Bank_CreateTransfer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

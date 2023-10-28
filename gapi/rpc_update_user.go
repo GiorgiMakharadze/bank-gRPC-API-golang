@@ -41,7 +41,6 @@ func (server *Server) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest)
 		},
 	}
 
-
 	if req.Password != nil {
 		hashedPassword, err := util.HashPassword(req.GetPassword())
 		if err != nil {

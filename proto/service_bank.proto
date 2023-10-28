@@ -10,6 +10,7 @@ import "rpc_update_user.proto";
 import "rpc_create_account.proto";
 import "rpc_get_account.proto";
 import "rpc_list_accounts.proto";
+import "rpc_transfers.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 
@@ -96,6 +97,16 @@ service Bank {
       summary: "List accounts";
     };
   }
+  rpc CreateTransfer (CreateTransferRequest) returns (CreateTransferResponse) {
+    option (google.api.http) = {
+        post: "/v1/transfers"
+        body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this API to transfer money";
+      summary: "Transfer money";
+   };
+ }
 }
 
 

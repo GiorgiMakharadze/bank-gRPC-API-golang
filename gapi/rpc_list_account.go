@@ -10,26 +10,26 @@ import (
 )
 
 func (server *Server) ListAccounts(ctx context.Context, req *pb.ListAccountRequest) (*pb.ListAccountResponse, error) {
-    payload, err := server.authorizeUser(ctx)
-    if err != nil {
-        return nil, status.Errorf(codes.Unauthenticated, "unauthenticated: %v", err)
-    }
+	payload, err := server.authorizeUser(ctx)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "unauthenticated: %v", err)
+	}
 
-    arg := db.ListAccountsParams{
-        Owner:  payload.Username,
-        Limit:  req.PageSize,
-        Offset: (req.PageID - 1) * req.PageSize,
-    }
+	arg := db.ListAccountsParams{
+		Owner:  payload.Username,
+		Limit:  req.PageSize,
+		Offset: (req.PageID - 1) * req.PageSize,
+	}
 
-    accounts, err := server.store.ListAccounts(ctx, arg)
-    if err != nil {
-        return nil, status.Errorf(codes.Internal, "failed to list accounts: %v", err)
-    }
+	accounts, err := server.store.ListAccounts(ctx, arg)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to list accounts: %v", err)
+	}
 
-    rsp := &pb.ListAccountResponse{}
-    for _, account := range accounts {
-        pbAccount := convertAccount(account)
-        rsp.Account = append(rsp.Account, pbAccount)
-    }
-    return rsp, nil
+	rsp := &pb.ListAccountResponse{}
+	for _, account := range accounts {
+		pbAccount := convertAccount(account)
+		rsp.Account = append(rsp.Account, pbAccount)
+	}
+	return rsp, nil
 }

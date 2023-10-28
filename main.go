@@ -128,4 +128,3 @@ func runGatewayServer(config util.Config, store db.Store) {
 		log.Fatal().Err(err).Msg("cannot start HTTP gateway server:")
 	}
 }
-

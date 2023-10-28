@@ -14,18 +14,18 @@ import (
 
 func (server *Server) CreateAccount(ctx context.Context, req *pb.CreateAccountRequest) (*pb.CreateAccountResponse, error) {
 	payload, err := server.authorizeUser(ctx)
-    if err != nil {
-        return nil, status.Errorf(codes.Unauthenticated, "unauthenticated: %v", err)
-    }
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "unauthenticated: %v", err)
+	}
 
-    violations := ValidateCreateAccountRequest(req)
-    if len(violations) > 0 {
-        return nil, invalidArgumentError(violations)
-    }
+	violations := ValidateCreateAccountRequest(req)
+	if len(violations) > 0 {
+		return nil, invalidArgumentError(violations)
+	}
 
-    if payload.Username != req.Owner {
-        return nil, status.Errorf(codes.PermissionDenied, "user doesn't have permission to create this account")
-    }
+	if payload.Username != req.Owner {
+		return nil, status.Errorf(codes.PermissionDenied, "user doesn't have permission to create this account")
+	}
 
 	arg := db.CreateAccountParams{
 		Owner:    payload.Username,
