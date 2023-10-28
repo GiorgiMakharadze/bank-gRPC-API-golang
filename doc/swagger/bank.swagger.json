@@ -22,7 +22,7 @@
   ],
   "paths": {
     "/v1/create_account": {
-      "patch": {
+      "post": {
         "summary": "Create new account",
         "description": "Use this API to create account",
         "operationId": "Bank_CreateAccount",

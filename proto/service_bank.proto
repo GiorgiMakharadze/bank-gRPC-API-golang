@@ -55,7 +55,7 @@ service Bank {
   }
   rpc CreateAccount (CreateAccountRequest) returns (CreateAccountResponse) {
     option (google.api.http) = {
-        patch: "/v1/create_account"
+        post: "/v1/create_account"
         body: "*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {

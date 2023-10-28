@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/GiorgiMakharadze/bank-API-golang/api"
 	db "github.com/GiorgiMakharadze/bank-API-golang/db/sqlc"
 	_ "github.com/GiorgiMakharadze/bank-API-golang/doc/statik"
 	"github.com/GiorgiMakharadze/bank-API-golang/gapi"
@@ -130,14 +129,3 @@ func runGatewayServer(config util.Config, store db.Store) {
 	}
 }
 
-func runGinServer(config util.Config, store db.Store) {
-	server, err := api.NewServer(config, store)
-	if err != nil {
-		log.Fatal().Msg("cannot create server:")
-	}
-
-	err = server.Start(config.HTTPServerAddress)
-	if err != nil {
-		log.Fatal().Msg("cannot start server:")
-	}
-}
