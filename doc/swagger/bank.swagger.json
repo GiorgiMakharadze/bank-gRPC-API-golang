@@ -89,10 +89,10 @@
         ]
       }
     },
-    "/v1/get_account": {
+    "/v1/get_account/{id}": {
       "get": {
-        "summary": "Get accounts",
-        "description": "Use this API to get single account",
+        "summary": "Get account by ID",
+        "description": "Use this API to get an account by ID",
         "operationId": "Bank_GetAccount",
         "responses": {
           "200": {
@@ -111,8 +111,8 @@
         "parameters": [
           {
             "name": "id",
-            "in": "query",
-            "required": false,
+            "in": "path",
+            "required": true,
             "type": "string",
             "format": "int64"
           }

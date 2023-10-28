@@ -65,13 +65,13 @@ service Bank {
  }
  rpc GetAccount (GetAccountRequest) returns (GetAccountResponse) {
   option (google.api.http) = {
-    get: "/v1/get_account"
+      get: "/v1/get_account/{id}"
   };
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      description: "Use this API to get single account";
-      summary: "Get accounts";
-    };
-  }
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Use this API to get an account by ID";
+      summary: "Get account by ID";
+  };
+}
  rpc ListAccounts (ListAccountRequest) returns (ListAccountResponse) {
   option (google.api.http) = {
     get: "/v1/list_accounts"
