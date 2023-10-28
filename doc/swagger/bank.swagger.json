@@ -164,6 +164,8 @@
     },
     "/v1/login_user": {
       "post": {
+        "summary": "Log in user",
+        "description": "Use this API to login user",
         "operationId": "Bank_LoginUser",
         "responses": {
           "200": {
@@ -186,6 +188,40 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/pbLoginUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Bank"
+        ]
+      }
+    },
+    "/v1/renew_access": {
+      "post": {
+        "summary": "Log in user",
+        "description": "Use this API to login user",
+        "operationId": "Bank_RenewAccessToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbRenewAccessTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbRenewAccessTokenRequest"
             }
           }
         ],
@@ -352,6 +388,26 @@
           "format": "date-time"
         },
         "refreshTokenExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "pbRenewAccessTokenRequest": {
+      "type": "object",
+      "properties": {
+        "refreshToken": {
+          "type": "string"
+        }
+      }
+    },
+    "pbRenewAccessTokenResponse": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "accessTokenExpiresAt": {
           "type": "string",
           "format": "date-time"
         }

@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Bank_CreateUser_FullMethodName    = "/pb.Bank/CreateUser"
-	Bank_LoginUser_FullMethodName     = "/pb.Bank/LoginUser"
-	Bank_UpdateUser_FullMethodName    = "/pb.Bank/UpdateUser"
-	Bank_CreateAccount_FullMethodName = "/pb.Bank/CreateAccount"
-	Bank_GetAccount_FullMethodName    = "/pb.Bank/GetAccount"
-	Bank_ListAccounts_FullMethodName  = "/pb.Bank/ListAccounts"
+	Bank_CreateUser_FullMethodName       = "/pb.Bank/CreateUser"
+	Bank_LoginUser_FullMethodName        = "/pb.Bank/LoginUser"
+	Bank_RenewAccessToken_FullMethodName = "/pb.Bank/RenewAccessToken"
+	Bank_UpdateUser_FullMethodName       = "/pb.Bank/UpdateUser"
+	Bank_CreateAccount_FullMethodName    = "/pb.Bank/CreateAccount"
+	Bank_GetAccount_FullMethodName       = "/pb.Bank/GetAccount"
+	Bank_ListAccounts_FullMethodName     = "/pb.Bank/ListAccounts"
 )
 
 // BankClient is the client API for Bank service.
@@ -33,6 +34,7 @@ const (
 type BankClient interface {
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
 	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error)
+	RenewAccessToken(ctx context.Context, in *RenewAccessTokenRequest, opts ...grpc.CallOption) (*RenewAccessTokenResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error)
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error)
@@ -59,6 +61,15 @@ func (c *bankClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts
 func (c *bankClient) LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error) {
 	out := new(LoginUserResponse)
 	err := c.cc.Invoke(ctx, Bank_LoginUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bankClient) RenewAccessToken(ctx context.Context, in *RenewAccessTokenRequest, opts ...grpc.CallOption) (*RenewAccessTokenResponse, error) {
+	out := new(RenewAccessTokenResponse)
+	err := c.cc.Invoke(ctx, Bank_RenewAccessToken_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -107,6 +118,7 @@ func (c *bankClient) ListAccounts(ctx context.Context, in *ListAccountRequest, o
 type BankServer interface {
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
 	LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error)
+	RenewAccessToken(context.Context, *RenewAccessTokenRequest) (*RenewAccessTokenResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error)
 	GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error)
@@ -123,6 +135,9 @@ func (UnimplementedBankServer) CreateUser(context.Context, *CreateUserRequest) (
 }
 func (UnimplementedBankServer) LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginUser not implemented")
+}
+func (UnimplementedBankServer) RenewAccessToken(context.Context, *RenewAccessTokenRequest) (*RenewAccessTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RenewAccessToken not implemented")
 }
 func (UnimplementedBankServer) UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
@@ -181,6 +196,24 @@ func _Bank_LoginUser_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BankServer).LoginUser(ctx, req.(*LoginUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Bank_RenewAccessToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RenewAccessTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BankServer).RenewAccessToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Bank_RenewAccessToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BankServer).RenewAccessToken(ctx, req.(*RenewAccessTokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -271,6 +304,10 @@ var Bank_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LoginUser",
 			Handler:    _Bank_LoginUser_Handler,
+		},
+		{
+			MethodName: "RenewAccessToken",
+			Handler:    _Bank_RenewAccessToken_Handler,
 		},
 		{
 			MethodName: "UpdateUser",

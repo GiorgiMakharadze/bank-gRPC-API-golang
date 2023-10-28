@@ -5,6 +5,7 @@ package pb;
 import "google/api/annotations.proto";
 import "rpc_create_user.proto";
 import "rpc_login_user.proto";
+import "rpc_renew_access_token.proto";
 import "rpc_update_user.proto";
 import "rpc_create_account.proto";
 import "rpc_get_account.proto";
@@ -41,8 +42,22 @@ service Bank {
         option (google.api.http) = {
             post: "/v1/login_user"
             body: "*"
-        };
+        }; 
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          description: "Use this API to login user";
+          summary: "Log in user";
+      };
     }
+    rpc RenewAccessToken (RenewAccessTokenRequest) returns (RenewAccessTokenResponse) {
+      option (google.api.http) = {
+          post: "/v1/renew_access"
+          body: "*"
+      }; 
+      option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        description: "Use this API to login user";
+        summary: "Log in user";
+    };
+  }
     rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {
       option (google.api.http) = {
           patch: "/v1/update_user"
