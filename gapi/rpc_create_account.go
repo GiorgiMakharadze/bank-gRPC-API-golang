@@ -6,7 +6,6 @@ import (
 	db "github.com/GiorgiMakharadze/bank-API-golang/db/sqlc"
 	"github.com/GiorgiMakharadze/bank-API-golang/pb"
 	"github.com/GiorgiMakharadze/bank-API-golang/val"
-	"github.com/lib/pq"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -35,11 +34,8 @@ func (server *Server) CreateAccount(ctx context.Context, req *pb.CreateAccountRe
 
 	account, err := server.store.CreateAccount(ctx, arg)
 	if err != nil {
-		if pqErr, ok := err.(*pq.Error); ok {
-			switch pqErr.Code.Name() {
-			case "foreign_key_violation", "unique_violation":
-				return nil, status.Errorf(codes.AlreadyExists, "account already exists: %s", err)
-			}
+		if db.ErrorCode(err) == db.UniqueViolation {
+			return nil, status.Errorf(codes.AlreadyExists, err.Error())
 		}
 		return nil, status.Errorf(codes.Internal, "failed to create account: %s", err)
 	}

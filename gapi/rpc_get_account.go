@@ -2,8 +2,9 @@ package gapi
 
 import (
 	"context"
-	"database/sql"
+	"errors"
 
+	db "github.com/GiorgiMakharadze/bank-API-golang/db/sqlc"
 	"github.com/GiorgiMakharadze/bank-API-golang/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -17,8 +18,8 @@ func (server *Server) GetAccount(ctx context.Context, req *pb.GetAccountRequest)
 
 	account, err := server.store.GetAccount(ctx, req.Id)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, status.Errorf(codes.NotFound, "account not found: %v", err)
+		if errors.Is(err, db.ErrRecordNotFound) {
+			return nil, status.Errorf(codes.NotFound, "account not found")
 		}
 		return nil, status.Errorf(codes.Internal, "failed to get account: %v", err)
 	}
