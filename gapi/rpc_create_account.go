@@ -5,6 +5,7 @@ import (
 
 	db "github.com/GiorgiMakharadze/bank-API-golang/db/sqlc"
 	"github.com/GiorgiMakharadze/bank-API-golang/pb"
+	"github.com/GiorgiMakharadze/bank-API-golang/util"
 	"github.com/GiorgiMakharadze/bank-API-golang/val"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
@@ -12,7 +13,7 @@ import (
 )
 
 func (server *Server) CreateAccount(ctx context.Context, req *pb.CreateAccountRequest) (*pb.CreateAccountResponse, error) {
-	payload, err := server.authorizeUser(ctx)
+	payload, err := server.authorizeUser(ctx, []string{util.BankerRole, util.DepositorRole})
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "unauthenticated: %v", err)
 	}

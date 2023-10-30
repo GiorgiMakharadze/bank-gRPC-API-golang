@@ -44,6 +44,7 @@ func (server *Server) RenewAccessToken(ctx context.Context, req *pb.RenewAccessT
 
 	accessToken, accessPayload, err := server.tokenMaker.CreateToken(
 		refreshPayload.Username,
+		refreshPayload.Role,
 		server.config.AccessTokenDuration,
 	)
 	if err != nil {

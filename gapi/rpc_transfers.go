@@ -8,6 +8,7 @@ import (
 
 	db "github.com/GiorgiMakharadze/bank-API-golang/db/sqlc"
 	"github.com/GiorgiMakharadze/bank-API-golang/pb"
+	"github.com/GiorgiMakharadze/bank-API-golang/util"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -18,7 +19,7 @@ func (server *Server) CreateTransfer(ctx context.Context, req *pb.CreateTransfer
 		return nil, status.Errorf(codes.NotFound, msg)
 	}
 
-	authPayload, err := server.authorizeUser(ctx)
+	authPayload, err := server.authorizeUser(ctx, []string{util.BankerRole, util.DepositorRole})
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "unauthenticated: %v", err)
 	}

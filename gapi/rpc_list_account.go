@@ -5,12 +5,13 @@ import (
 
 	db "github.com/GiorgiMakharadze/bank-API-golang/db/sqlc"
 	"github.com/GiorgiMakharadze/bank-API-golang/pb"
+	"github.com/GiorgiMakharadze/bank-API-golang/util"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 func (server *Server) ListAccounts(ctx context.Context, req *pb.ListAccountRequest) (*pb.ListAccountResponse, error) {
-	payload, err := server.authorizeUser(ctx)
+	payload, err := server.authorizeUser(ctx, []string{util.BankerRole, util.DepositorRole})
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "unauthenticated: %v", err)
 	}
