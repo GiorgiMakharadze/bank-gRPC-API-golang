@@ -43,18 +43,6 @@ func ValidatePassword(value string) error {
 	return ValidateString(value, 6, 100)
 }
 
-func ValidateEmail(value string) error {
-	if err := ValidateString(value, 3, 200); err != nil {
-		return err
-	}
-	if _, err := mail.ParseAddress(value); err != nil {
-		return fmt.Errorf("is not a valid email address")
-	}
-	return nil
-}
-
-
-
 const (
     USD = "USD"
     EUR = "EUR"
@@ -71,4 +59,25 @@ func ValidateCurrency(currency string) error {
     default:
         return fmt.Errorf("invalid currency: must be one of %s, %s, %s, %s, %s, or %s", USD, EUR, GEL, JPY, GBP, AUD)
     }
+}
+
+func ValidateEmail(value string) error {
+	if err := ValidateString(value, 3, 200); err != nil {
+		return err
+	}
+	if _, err := mail.ParseAddress(value); err != nil {
+		return fmt.Errorf("is not a valid email address")
+	}
+	return nil
+}
+
+func ValidateEmailId(value int64) error {
+	if value <= 0 {
+		return fmt.Errorf("must be a positive integer")
+	}
+	return nil
+}
+
+func ValidateSecretCode(value string) error {
+	return ValidateString(value, 32, 128)
 }

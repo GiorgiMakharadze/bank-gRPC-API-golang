@@ -198,8 +198,8 @@
     },
     "/v1/renew_access": {
       "post": {
-        "summary": "Log in user",
-        "description": "Use this API to login user",
+        "summary": "Renew Access token",
+        "description": "Use this to renew access token",
         "operationId": "Bank_RenewAccessToken",
         "responses": {
           "200": {
@@ -291,6 +291,45 @@
             "schema": {
               "$ref": "#/definitions/pbUpdateUserRequest"
             }
+          }
+        ],
+        "tags": [
+          "Bank"
+        ]
+      }
+    },
+    "/v1/verify_email": {
+      "get": {
+        "summary": "Verify Email",
+        "description": "Use this API to verify users's email address",
+        "operationId": "Bank_VerifyEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbVerifyEmailResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "emailId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "secretCode",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -535,6 +574,14 @@
         "createdAt": {
           "type": "string",
           "format": "date-time"
+        }
+      }
+    },
+    "pbVerifyEmailResponse": {
+      "type": "object",
+      "properties": {
+        "isVerified": {
+          "type": "boolean"
         }
       }
     },

@@ -66,7 +66,10 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 	}
 
 	subject := "Welcome to Bank"
-	verifyUrl :=fmt.Sprintf("http://bank.org/verify_email?id=%d&secret_code=%s", verifyEmail.ID, verifyEmail.SecretCode)
+	// In Reality change this link to front-end page // In this example, the URL points to a local development environment.
+	// In a production setting, you should replace this URL with the link
+	// to the corresponding front-end page in your application.
+	verifyUrl := fmt.Sprintf("http://localhost:8080/v1/verify_email?email_id=%d&secret_code=%s", verifyEmail.ID, verifyEmail.SecretCode)
 	content := fmt.Sprintf(`Hello %s, <br>
 	Thank you for registering with us!</br>
 	Please <a href="%s">click here</a> to verify email address.<br/>
@@ -74,9 +77,8 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 	to := []string{user.Email}
 	err = processor.mailer.SendEmail(subject, content, to, nil, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to send verify email: %w",err)
+		return fmt.Errorf("failed to send verify email: %w", err)
 	}
-
 
 	log.Info().
 		Str("type", task.Type()).

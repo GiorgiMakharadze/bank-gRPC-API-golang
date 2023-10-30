@@ -11,6 +11,7 @@ import "rpc_create_account.proto";
 import "rpc_get_account.proto";
 import "rpc_list_accounts.proto";
 import "rpc_transfers.proto";
+import "rpc_verify_email.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 
@@ -55,8 +56,8 @@ service Bank {
           body: "*"
       }; 
       option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-        description: "Use this API to login user";
-        summary: "Log in user";
+        description: "Use this to renew access token";
+        summary: "Renew Access token";
     };
   }
     rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {
@@ -107,6 +108,15 @@ service Bank {
       summary: "Transfer money";
    };
  }
+ rpc VerifyEmail (VerifyEmailRequest) returns (VerifyEmailResponse) {
+  option (google.api.http) = {
+      get: "/v1/verify_email"
+ }; 
+  option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+    description: "Use this API to verify users's email address";
+    summary: "Verify Email";
+};
+}
 }
 
 
